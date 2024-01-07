@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (max-width: 576px) {
+  .card-sm-0 > .ant-card-body {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@layer base {
+  p {
+    @apply mb-2;
+  }
+  h1 {
+    font-size: 30px;
+    @apply my-3 text-blue-600 font-bold capitalize;
+  }
+  h2 {
+    font-size: 20px;
+    @apply my-3 text-blue-600 font-bold capitalize;
+  }
+  h3 {
+    font-size: 18px;
+    @apply my-3 text-blue-600 font-semibold capitalize;
+  }
+  body {
+    @apply bg-gray-100;
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  /* .line-clamp-3::after {
+    content: "...readmore";
+    display: inline-block;
+  } */
+}
