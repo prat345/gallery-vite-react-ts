@@ -1,6 +1,5 @@
-// import "./App.css";
+import "./App.css";
 import HomePage from "./pages/HomePage";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ArtPage from "./pages/ArtPage";
 import EditPage from "./pages/EditPage";
@@ -12,7 +11,7 @@ function App() {
   const AtHomePage = location.pathname === "/";
   return (
     <div className={AtHomePage ? "bg-blue-900 " : ""}>
-      <Navbar />
+      <Navbar AtHomePage={AtHomePage} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/art/:id" element={<ArtPage />} />

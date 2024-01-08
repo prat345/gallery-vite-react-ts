@@ -49,6 +49,7 @@ interface DataType {
   startDate: string;
   endDate: string;
   status: boolean;
+  images: number[];
 }
 
 const data: DataType[] = [];
@@ -63,6 +64,7 @@ for (let i = 0; i < 20; i++) {
     startDate: startDate,
     endDate: endDate,
     status: Math.random() < 0.7,
+    images: Array.from({ length: 4 }, (_, index) => index),
   };
   data.push(art);
 }

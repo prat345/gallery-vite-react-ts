@@ -8,6 +8,7 @@ import {
   DeleteOutlined,
   ReloadOutlined,
   SearchOutlined,
+  EyeOutlined,
 } from "@ant-design/icons";
 
 interface DataType {
@@ -68,41 +69,36 @@ const columns: ColumnsType<DataType> = [
       },
     ],
     onFilter: (value, record) => record.status === value,
-    render: (_, art, id) => (
+    render: (_, art, _id) => (
       <Space size="middle">
         {art.status ? (
-          <Tag color="green" key={id}>
+          <Tag color="green" key={art._id}>
             on display
           </Tag>
         ) : (
-          <Tag color="red" key={id}>
+          <Tag color="red" key={art._id}>
             not display
           </Tag>
         )}
 
-        <Link to={`/art/${id}`}>
-          <Button>view</Button>
+        <Link to={`/art/${art._id}`}>
+          <EyeOutlined /> view
         </Link>
       </Space>
     ),
   },
 ];
 
-const onFinish = (values: any) => {
-  // Handle form submission here
-  console.log("Received values:", values);
-};
-
 const HomePage: React.FC = () => {
   const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [searchText, setSearchText] = useState<String>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
 
   useEffect(() => {
     setDataSource(data);
   }, []);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
 
   const deleteAllData = () => {
     setDataSource([]);
@@ -116,6 +112,19 @@ const HomePage: React.FC = () => {
     setSelectedRowKeys([]);
   };
 
+  const handleSearch = () => {
+    console.log("s: ", searchText);
+    const newDataSource = data.filter((art, _id) => {
+      return art.artName.toLowerCase().includes(searchText.toLowerCase());
+    });
+    setDataSource(newDataSource);
+  };
+
+  const onFinish = (values: any) => {
+    console.log("Received values:", values);
+    handleSearch();
+  };
+
   // Pagination
   const handlePageSizeChange = (_currentSize: number, newSize: number) => {
     setPageSize(newSize);
@@ -123,6 +132,7 @@ const HomePage: React.FC = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
   const paginationConfig = {
     showSizeChanger: true, // Show page size changer
     pageSizeOptions: ["3", "5", "7", "10"], // Define available page sizes
@@ -132,6 +142,7 @@ const HomePage: React.FC = () => {
     total: dataSource.length,
     current: currentPage,
     onChange: handlePageChange,
+    showLessItems: true,
   };
 
   // Row Select
@@ -161,43 +172,71 @@ const HomePage: React.FC = () => {
           remember: true,
         }}
       >
-        <Card className="card-sm-0 bg-gray-200">
-          <h2 className="text-black">Board</h2>
-          <div className="bg-white p-3 rounded-2 drop-shadow-md">
-            <Row>
-              <Col span={16} className="flex justify-start space-x-2">
+        <Card className="card-sm-0 bg-gray-200 sm:pt-4 sm:pb-12 rounded-3xl">
+          <h3 className="font-bold">Dashboard</h3>
+          <div className="bg-white rounded-lg drop-shadow-md p-2 sm:p-4">
+            <Row gutter={10} className="mb-2">
+              <Col span={18} md={12}>
                 <Form.Item
+                  name="searchText"
+                  wrapperCol={{ span: 24 }}
+                  // className="w-100"
                   label={
-                    <div className="font-semibold ml-2 mr-5 sm:ml-0 sm:mr-0">
+                    <div className="font-medium ml-2 mr-5 sm:ml-0 sm:mr-0">
                       Search
                     </div>
                   }
                   colon={false}
                 >
-                  <Input />
+                  <Input
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder="art name"
+                  />
                 </Form.Item>
-                <Form.Item wrapperCol={{ span: 4 }}>
-                  <Button icon={<SearchOutlined />}></Button>
+              </Col>
+
+              <Col span={4} className="flex space-x-2">
+                <Form.Item wrapperCol={{ span: 12 }}>
+                  <Button
+                    htmlType="submit"
+                    icon={<SearchOutlined className="text-white" />}
+                    className="bg-blue-900 hover:bg-blue-800"
+                  ></Button>
                 </Form.Item>
-                <Form.Item wrapperCol={{ span: 4 }}>
+                <Form.Item wrapperCol={{ span: 12 }}>
                   <Button
                     onClick={() => {
                       setDataSource(data);
                     }}
                     icon={<ReloadOutlined />}
+                    className="bg-gray-100 hover:bg-gray-200"
                   ></Button>
                 </Form.Item>
               </Col>
-              <Col span={8} className="flex justify-end space-x-2">
-                <Button onClick={deleteSelected} icon={<DeleteOutlined />}>
-                  Delete
-                </Button>
-                <Button onClick={deleteAllData} icon={<DeleteOutlined />}>
+
+              <Col
+                span={24}
+                md={8}
+                className="flex space-x-2 mb-6 md:justify-end "
+              >
+                <Button
+                  onClick={deleteSelected}
+                  icon={<DeleteOutlined />}
+                  className="shadow-md"
+                ></Button>
+                <Button
+                  onClick={deleteAllData}
+                  icon={<DeleteOutlined style={{ fontSize: "16px" }} />}
+                  className="shadow-md"
+                >
                   Delete All
                 </Button>
               </Col>
             </Row>
 
+            <p>
+              {dataSource.length}/{data.length} results
+            </p>
             <Table
               columns={columns}
               dataSource={dataSource}

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import data from "../data";
-import { Button, Card, Col, Row, Carousel } from "antd";
+import { Button, Card, Col, Row } from "antd";
 import { Helmet } from "react-helmet-async";
 import {
   CheckOutlined,
@@ -9,91 +9,26 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 
-interface ReadmoreProps {
-  text: String;
-}
-const Readmore: React.FC<ReadmoreProps> = ({ text }) => {
-  // text = "-".repeat(100);
-  const [lessThanThree, setLessThanThree] = useState(true);
-  const [showReadMore, setShowReadMore] = useState(false);
-  const ref = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      console.log(ref.current.scrollHeight, ref.current.clientHeight);
-      // if line > 3, show readmore btn (line-height 22)
-      if (ref.current.clientHeight >= 22 * 3) {
-        setShowReadMore(true);
-      }
-    }
-  }, [lessThanThree, showReadMore]);
-
-  return (
-    <p>
-      <span
-        className={lessThanThree ? "line-clamp-3" : "line-clamp-5"}
-        ref={ref}
-      >
-        {text}
-      </span>
-      {showReadMore && (
-        <span
-          className="text-blue-500 font-medium cursor-pointer hover:text-gray-600 transition-colors duration-300"
-          onClick={() => setLessThanThree(!lessThanThree)}
-        >
-          {lessThanThree ? " Read more" : "  Close"}
-        </span>
-      )}
-    </p>
-  );
-};
+import CarouselAntd from "../components/CarouselAntd";
+import Readmore from "../components/Readmore";
 
 const ArtPage: React.FC = () => {
   const param = useParams();
   const { id } = param;
-  const images = Array.from({ length: 4 });
   // console.log(id, typeof id);
   const art = data[parseInt(id ?? "0")];
+
   return (
     <div className="container">
       <Helmet>
         <title>{art.artName}</title>
       </Helmet>
-      <h1>art {id}</h1>
       <Row gutter={[30, 30]} className="justify-between">
         <Col xs={24} md={12} lg={8}>
-          <Carousel autoplay className="mb-3 rounded-xl overflow-hidden">
-            {images.map((_, i) => (
-              <div key={i}>
-                <img
-                  className="d-block w-100"
-                  src={`https://picsum.photos/id/${i * 10}/700/500`}
-                  alt={`Image ${i + 1}`}
-                  // style={{ maxHeight: "250px" }}
-                />
-              </div>
-            ))}
-          </Carousel>
-          <Row gutter={[16, 16]} className="mb-4">
-            {images.map((_, i) => (
-              <Col span={6}>
-                <div key={i} className="rounded-lg overflow-hidden">
-                  <img
-                    className="d-block w-100"
-                    src={`https://picsum.photos/id/${i * 10}/500/350`}
-                    alt={`Image ${i + 1}`}
-                    // style={{ maxHeight: "250px" }}
-                  />
-                </div>
-              </Col>
-            ))}
-          </Row>
-          <div className="text-center text-blue-900 text-lg font-medium mb-3">
-            {"1 / 4"}
-          </div>
-          <div>
+          <CarouselAntd images={art.images} />
+          <div className="description">
             <ul>
-              <li className="flex space-x-2 mb-3">
+              <li className="flex space-x-2 mb-3 text-blue-900">
                 <span>
                   <CheckOutlined />
                 </span>
@@ -103,7 +38,7 @@ const ArtPage: React.FC = () => {
                   a recusandae consequatur dolorem.
                 </span>
               </li>
-              <li className="flex space-x-2 mb-3">
+              <li className="flex space-x-2 mb-3 text-blue-900">
                 <span>
                   <CheckOutlined />
                 </span>
@@ -119,28 +54,37 @@ const ArtPage: React.FC = () => {
           <Card className="pb-10">
             <h2>{art.artName}</h2>
             <Row gutter={[16, 16]} className="mb-3">
-              <Col span={5} className="text-gray-500">
-                Category:
+              <Col span={5}>Category:</Col>
+              <Col span={19} className="font-medium text-blue-900">
+                {art.category}
               </Col>
-              <Col span={19}>{art.category}</Col>
-
-              <Col span={5} className="text-gray-500">
-                Start Date:
+              <Col span={5}>Start Date:</Col>
+              <Col span={19} className="font-medium text-blue-900">
+                {art.status && art.startDate}
               </Col>
-              <Col span={19}>{art.startDate}</Col>
-
-              <Col span={5} className="text-gray-500">
-                End Date:
+              <Col span={5}>End Date:</Col>
+              <Col span={19} className="font-medium text-blue-900">
+                {" "}
+                {art.status && art.endDate}
               </Col>
-              <Col span={19}>{art.endDate}</Col>
             </Row>
 
             <div className="mb-3">
-              <h3>License Owner</h3>
+              <h3>Owner</h3>
               <Card>
-                <p>Lorem, ipsum dolor.</p>
-                <p>999-999-9999</p>
-                <p>example@email.com</p>
+                <h3>Lorem, ipsum dolor.</h3>
+                <p>
+                  <span>Phone: </span>
+                  <span className="font-medium text-blue-900">
+                    999-999-9999
+                  </span>
+                </p>
+                <p>
+                  <span>Email: </span>
+                  <span className="font-medium text-blue-900">
+                    example@email.com
+                  </span>
+                </p>
               </Card>
             </div>
 

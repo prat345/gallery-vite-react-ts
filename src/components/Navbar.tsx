@@ -1,29 +1,31 @@
 import { FC } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-interface Props {
-  // Define your props here
+interface NavbarProps {
+  AtHomePage: Boolean;
 }
 
-const Navbar: FC<Props> = () => {
-  const location = useLocation();
-  const AtHomePage = location.pathname === "/";
+const Navbar: FC<NavbarProps> = ({ AtHomePage }) => {
   return (
     <div
-      className={`py-3 mb-4 border-b-2 border-gray-200 ${
-        AtHomePage ? "bg-blue-900 " : ""
+      className={`py-3 mb-10  ${
+        AtHomePage ? "bg-blue-900 border-b-2 border-gray-200" : ""
       }`}
     >
       <div
-        className={`container flex justify-between font-semibold ${
-          AtHomePage ? "text-white" : "text-blue-600"
+        className={`container flex justify-between ${
+          AtHomePage ? "text-white" : "text-blue-800"
         }`}
         style={{ lineHeight: "32px" }}
       >
-        <Link to={"/"} className="text-2xl uppercase">
-          Roof
+        <Link to={"/"} className="text-2xl uppercase font-medium">
+          LOGO
         </Link>
-        <div>kopkap</div>
+        {AtHomePage ? (
+          <div>lorem ipsum</div>
+        ) : (
+          <div className="text-gray-500">kopkap</div>
+        )}
       </div>
     </div>
   );

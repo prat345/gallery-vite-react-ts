@@ -5,16 +5,21 @@ import {
   YoutubeOutlined,
   InstagramOutlined,
 } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+
 const Footer: React.FC = () => {
   return (
-    <footer className="footer bg-blue-900 py-4 mt-5">
+    <footer className="footer bg-blue-900 pt-8 pb-10 mt-5">
       <div className="container flex">
-        <p className="my-auto mr-10 text-5xl text-white font-semibold">LOGO</p>
-        <ul className="flex flex-column text-gray-100">
+        <Link
+          to={"/"}
+          className="my-auto mr-10 text-5xl text-white font-medium"
+        >
+          LOGO
+        </Link>
+        <ul className="flex flex-col text-gray-100">
           <li>
-            <p className="font-semibold text-md">
-              Anonymous Solution Co., Ltd.
-            </p>
+            <p className="font-medium text-md">Anonymous Solution Co., Ltd.</p>
           </li>
           <li>
             <p className="text-xs">

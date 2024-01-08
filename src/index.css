@@ -2,10 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: "Kanit", sans-serif !important;
+}
+
+.carousel-item {
+  transition: transform 0.5s ease-in-out;
+}
+.ant-btn {
+  color: #00095e;
+}
+ul.ant-pagination > li:last-child {
+  position: absolute;
+  left: 0;
+}
+ul.ant-pagination > li:last-child::before {
+  content: "Page Size";
+  margin-right: 10px;
+  color: #00095e;
+  font-weight: bold;
+}
+
 @media (max-width: 576px) {
+  * {
+    font-size: 14px;
+  }
   .card-sm-0 > .ant-card-body {
     padding-left: 5px;
     padding-right: 5px;
+  }
+  th.ant-table-cell,
+  td.ant-table-cell {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .ant-form-item-label {
+    display: none;
   }
 }
 
@@ -14,16 +46,16 @@
     @apply mb-2;
   }
   h1 {
-    font-size: 30px;
-    @apply my-3 text-blue-600 font-bold capitalize;
+    font-size: 32px;
+    @apply mb-3 text-blue-900 font-bold capitalize;
   }
   h2 {
-    font-size: 20px;
-    @apply my-3 text-blue-600 font-bold capitalize;
+    font-size: 26px;
+    @apply mb-3 text-blue-900 font-bold capitalize;
   }
   h3 {
     font-size: 18px;
-    @apply my-3 text-blue-600 font-semibold capitalize;
+    @apply mb-3 text-blue-900 font-medium capitalize;
   }
   body {
     @apply bg-gray-100;
@@ -34,6 +66,15 @@
 }
 
 @layer utilities {
+  .text-blue-900 {
+    color: #00095e;
+  }
+  .container {
+    @apply mx-auto px-2 sm:px-4 md:px-8;
+  }
+  .border-b-2 {
+    border-bottom: 1px solid #bbbbbb50;
+  }
   .line-clamp-3 {
     overflow: hidden;
     display: -webkit-box;
@@ -44,4 +85,10 @@
     content: "...readmore";
     display: inline-block;
   } */
+  .translate-y-50 {
+    transform: translate(0, -50%);
+  }
+  .translate-x-50 {
+    transform: translate(-50%, 0);
+  }
 }
