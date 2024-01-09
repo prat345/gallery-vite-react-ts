@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Col, Row, Carousel } from "antd";
-import { RightOutlined } from "@ant-design/icons";
 import { CarouselRef } from "antd/es/carousel";
-import { LeftOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 interface CarouselAntdProps {
   images: number[];
@@ -42,16 +41,16 @@ const CarouselAntd: React.FC<CarouselAntdProps> = ({ images }) => {
     <>
       <div className="carousel-container relative">
         <LeftOutlined
-          className="absolute top-1/2 left-4 transform-y-50 text-white text-2xl opacity-75 hover:opacity-100 transition-all duration-200"
-          style={{ zIndex: "999" }}
+          className="absolute top-1/2 left-0 p-3 translate-y-50 text-white text-2xl opacity-75 hover:opacity-100 transition-all duration-200"
+          style={{ zIndex: "90" }}
           onClick={() => {
             prevSlide();
           }}
         />
 
         <RightOutlined
-          className="absolute top-1/2 right-4 transform-y-50 text-white text-2xl opacity-75 hover:opacity-100 transition-all duration-200"
-          style={{ zIndex: "999" }}
+          className="absolute top-1/2 right-0 p-3 translate-y-50 text-white text-2xl opacity-75 hover:opacity-100 transition-all duration-200"
+          style={{ zIndex: "90" }}
           onClick={() => {
             nextSlide();
           }}
@@ -75,16 +74,13 @@ const CarouselAntd: React.FC<CarouselAntdProps> = ({ images }) => {
           ))}
         </Carousel>
       </div>
+
       <Row gutter={16} className="mb-4">
         {images.map((num: number, i) => (
-          <Col span={6}>
-            <div
-              key={num}
-              className="rounded-lg overflow-hidden  opacity-75 hover:opacity-100 hover:scale-110 cursor-pointer transition duration-300"
-            >
+          <Col span={6} key={num}>
+            <div className="rounded-lg overflow-hidden opacity-75 hover:opacity-100 hover:scale-110 cursor-pointer transition duration-300">
               <img
-                className="d-block w-100
-                    "
+                className="d-block w-100"
                 src={`https://picsum.photos/id/${num * 10}/500/350`}
                 alt={`Image ${num + 1}`}
                 onClick={() => goToSlide(i)}

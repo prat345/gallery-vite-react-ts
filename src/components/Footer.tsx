@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="footer bg-blue-900 pt-8 pb-10 mt-5">
+    <footer className="footer bg-blue-900 pt-8 pb-10 mt-20">
       <div className="container flex">
         <Link
           to={"/"}

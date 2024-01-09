@@ -1,7 +1,6 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { FormEvent, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import data from "../data";
-import type { DatePickerProps } from "antd";
 import {
   Card,
   Row,
@@ -19,18 +18,37 @@ import dayjs from "dayjs";
 import { ArrowLeftOutlined, FileDoneOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
-const onChange: DatePickerProps["onChange"] = (_date, dateString) => {
-  console.log(dateString);
-};
-
-const onFinish = (values: any) => {
-  // Handle form submission here
-  console.log("Received values:", values, values.endDate.format("YYYY-MM-DD"));
-};
 
 const EditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const art = data[parseInt(id ?? "0", 10)];
+  const navigate = useNavigate();
+
+  const [category, setCategory] = useState(art.category);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [display, setDisplay] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [remark, setRemark] = useState("");
+
+  const onFinish = (_e: FormEvent) => {
+    const formData = {
+      category,
+      name,
+      phone,
+      email,
+      display,
+      startDate,
+      endDate,
+      remark,
+    };
+    setTimeout(() => {
+      console.log("Submit: ", formData);
+      navigate("/");
+    }, 1000);
+  };
 
   return (
     <div className="container">
@@ -40,12 +58,12 @@ const EditPage: React.FC = () => {
       <Form onFinish={onFinish} layout="vertical" autoComplete="off">
         <div className="relative">
           <div className="absolute top-0 right-0 flex space-x-3">
-            <p>
+            <div>
               <Link to={`/`}>
                 <Button icon={<ArrowLeftOutlined />} shape="circle"></Button>
               </Link>
-            </p>
-            <p>
+            </div>
+            <div>
               <Form.Item>
                 <Button
                   icon={<FileDoneOutlined />}
@@ -53,7 +71,7 @@ const EditPage: React.FC = () => {
                   htmlType="submit"
                 ></Button>
               </Form.Item>
-            </p>
+            </div>
           </div>
           <h3 className="font-bold">Edit display options</h3>
           <Card className="mb-3">
@@ -71,7 +89,8 @@ const EditPage: React.FC = () => {
                   >
                     <Select
                       placeholder="Select category"
-                      defaultValue={art.category}
+                      value={art.category}
+                      onChange={(value) => setCategory(value)}
                     >
                       <Option value="painting">Painting</Option>
                       <Option value="literature">Literature</Option>
@@ -103,7 +122,10 @@ const EditPage: React.FC = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="Name" />
+                    <Input
+                      placeholder="Name"
+                      onChange={(e) => setName(e.target.value)}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={24} sm={12} lg={10}>
@@ -123,7 +145,12 @@ const EditPage: React.FC = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="Phone Number" />
+                    <Input
+                      placeholder="Phone Number"
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -142,7 +169,12 @@ const EditPage: React.FC = () => {
                       { type: "email", message: "Please a valid email" },
                     ]}
                   >
-                    <Input placeholder="Email" />
+                    <Input
+                      placeholder="Email"
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -160,9 +192,15 @@ const EditPage: React.FC = () => {
                     name="display"
                     rules={[]}
                   >
-                    <Radio.Group defaultValue={art.status}>
-                      <Radio value={false}>Don't display</Radio>
+                    <Radio.Group
+                      defaultValue={true}
+                      value={art.status}
+                      onChange={(e) => {
+                        setDisplay(e.target.value);
+                      }}
+                    >
                       <Radio value={true}>Display</Radio>
+                      <Radio value={false}>Don't display</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
@@ -181,10 +219,12 @@ const EditPage: React.FC = () => {
                         ]}
                       >
                         <DatePicker
-                          className="w-100"
+                          className="w-full"
                           format="YYYY-MM-DD"
-                          onChange={onChange}
-                          defaultValue={dayjs(art.startDate)}
+                          onChange={(_date, dateString) => {
+                            setStartDate(dateString);
+                          }}
+                          value={dayjs(art.startDate)}
                         />
                       </Form.Item>
                     </Col>
@@ -198,10 +238,12 @@ const EditPage: React.FC = () => {
                         ]}
                       >
                         <DatePicker
-                          className="w-100"
+                          className="w-full"
                           format="YYYY-MM-DD"
-                          onChange={onChange}
-                          defaultValue={dayjs(art.startDate)}
+                          onChange={(_date, dateString) => {
+                            setEndDate(dateString);
+                          }}
+                          value={dayjs(art.startDate)}
                         />
                       </Form.Item>
                     </Col>
@@ -214,6 +256,9 @@ const EditPage: React.FC = () => {
                     <Input.TextArea
                       placeholder="For more information. Contact example@email.com"
                       rows={4}
+                      onChange={(e) => {
+                        setRemark(e.target.value);
+                      }}
                     />
                   </Form.Item>
                 </Col>

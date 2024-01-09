@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import data from "../data";
 import { Button, Card, Col, Row } from "antd";
@@ -8,14 +8,13 @@ import {
   ArrowLeftOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-
-import CarouselAntd from "../components/CarouselAntd";
 import Readmore from "../components/Readmore";
+import Carousel from "../components/Carousel";
 
 const ArtPage: React.FC = () => {
   const param = useParams();
   const { id } = param;
-  // console.log(id, typeof id);
+
   const art = data[parseInt(id ?? "0")];
 
   return (
@@ -23,9 +22,12 @@ const ArtPage: React.FC = () => {
       <Helmet>
         <title>{art.artName}</title>
       </Helmet>
-      <Row gutter={[30, 30]} className="justify-between">
-        <Col xs={24} md={12} lg={8}>
-          <CarouselAntd images={art.images} />
+      <Row
+        gutter={[{ xs: 8, sm: 16, md: 30, lg: 50, xl: 120 }, 30]}
+        className="justify-between"
+      >
+        <Col xs={24} md={12}>
+          <Carousel images={art.images} />
           <div className="description">
             <ul>
               <li className="flex space-x-2 mb-3 text-blue-900">
@@ -50,8 +52,8 @@ const ArtPage: React.FC = () => {
             </ul>
           </div>
         </Col>
-        <Col xs={24} md={12} lg={14}>
-          <Card className="pb-10">
+        <Col xs={24} md={12}>
+          <Card className="h-full">
             <h2>{art.artName}</h2>
             <Row gutter={[16, 16]} className="mb-3">
               <Col span={5}>Category:</Col>

@@ -1,11 +1,11 @@
-import { FC } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 interface NavbarProps {
   AtHomePage: Boolean;
 }
 
-const Navbar: FC<NavbarProps> = ({ AtHomePage }) => {
+const Navbar: React.FC<NavbarProps> = ({ AtHomePage }) => {
   return (
     <div
       className={`py-3 mb-10  ${
@@ -24,7 +24,7 @@ const Navbar: FC<NavbarProps> = ({ AtHomePage }) => {
         {AtHomePage ? (
           <div>lorem ipsum</div>
         ) : (
-          <div className="text-gray-500">kopkap</div>
+          <div className="text-gray-400">admin</div>
         )}
       </div>
     </div>
