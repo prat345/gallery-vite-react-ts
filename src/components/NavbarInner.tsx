@@ -7,7 +7,7 @@ interface NavbarInnerProps {}
 const NavbarInner: React.FC<NavbarInnerProps> = () => {
   const location = useLocation();
   return (
-    <div className="navbar">
+    <div className="navbar" id="navbar-inner">
       <ul>
         <li className={location.pathname === "/" ? "active" : ""}>
           <Link to={"/"} className="flex space-x-2">

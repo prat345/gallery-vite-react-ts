@@ -38,7 +38,6 @@ const Carousel: React.FC<Props> = ({ images }) => {
             src={`https://picsum.photos/id/${num * 10}/700/500`}
             alt={`image${num}`}
             className={`carousel-item fade ${slide === i ? "" : "hidden"}`}
-            // style={{ transform: `translateX(-${slide * 100}%)` }}
           />
         ))}
         <LeftOutlined

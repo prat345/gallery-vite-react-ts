@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import data from "../data";
 import { Button, Card, Col, Row } from "antd";
@@ -11,23 +11,46 @@ import {
 import Readmore from "../components/Readmore";
 import Carousel from "../components/Carousel";
 
+interface Art {
+  _id: number;
+  key: string;
+  artName: string;
+  category: string;
+  startDate: string;
+  endDate: string;
+  status: boolean;
+  images: number[];
+}
+
 const ArtPage: React.FC = () => {
   const param = useParams();
   const { id } = param;
+  const [art, setArt] = useState<Art>({
+    _id: 0,
+    key: "0",
+    artName: "",
+    category: "",
+    startDate: "",
+    endDate: "",
+    status: true,
+    images: Array.from({ length: 4 }),
+  });
 
-  const art = data[parseInt(id ?? "0")];
+  useEffect(() => {
+    setArt(data[parseInt(id ?? "0")]);
+  }, []);
 
   return (
     <div className="container">
       <Helmet>
-        <title>{art.artName}</title>
+        <title>{art?.artName}</title>
       </Helmet>
       <Row
         gutter={[{ xs: 8, sm: 16, md: 30, lg: 50, xl: 120 }, 30]}
         className="justify-between"
       >
         <Col xs={24} md={12}>
-          <Carousel images={art.images} />
+          <Carousel images={art?.images} />
           <div className="description">
             <ul>
               <li className="flex space-x-2 mb-3 text-blue-900">
@@ -54,20 +77,20 @@ const ArtPage: React.FC = () => {
         </Col>
         <Col xs={24} md={12}>
           <Card className="h-full">
-            <h2>{art.artName}</h2>
+            <h2>{art?.artName}</h2>
             <Row gutter={[16, 16]} className="mb-3">
               <Col span={5}>Category:</Col>
               <Col span={19} className="font-medium text-blue-900">
-                {art.category}
+                {art?.category}
               </Col>
               <Col span={5}>Start Date:</Col>
               <Col span={19} className="font-medium text-blue-900">
-                {art.status && art.startDate}
+                {art?.status && art?.startDate}
               </Col>
               <Col span={5}>End Date:</Col>
               <Col span={19} className="font-medium text-blue-900">
                 {" "}
-                {art.status && art.endDate}
+                {art?.status && art?.endDate}
               </Col>
             </Row>
 

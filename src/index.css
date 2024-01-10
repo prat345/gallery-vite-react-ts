@@ -30,6 +30,9 @@ ul.ant-pagination > li:last-child::before {
 }
 
 /* NavbarInner */
+#navbar-inner {
+  margin-bottom: -1px;
+}
 .navbar {
   position: relative;
   left: 0px;
@@ -69,6 +72,9 @@ ul.ant-pagination > li:last-child::before {
   font-weight: 500;
   background: #e5e7eb;
   z-index: 3;
+}
+.navbar ul li.active span:first-child {
+  color: #00095e;
 }
 
 .navbar ul a:hover {
